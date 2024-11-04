@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách sản phẩm</title>
     <link href="../../public/css/style.css" rel="stylesheet">
-</head>
-<style>
-    /* Bố cục tổng thể */
-    .container {
+    <style>
+        /* Bố cục tổng thể */
+        .container {
         display: flex;
         justify-content: space-between;
         gap: 20px;
@@ -55,9 +54,10 @@
     }
 
     .product-card img {
-        width: 100%; /* Đảm bảo hình ảnh chiếm toàn bộ chiều rộng của thẻ cha */
-        height: auto; /* Giữ tỷ lệ khung hình */
-        object-fit: cover;
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        border-radius: 4px;
     }
 
     .product-card h5 {
@@ -107,8 +107,9 @@
     .cart-total {
         font-weight: bold;
         margin-top: 10px;
-    }
-</style>
+    }   
+    </style>
+</head>
 <body>
     <?php include '../partials/header.php'; ?>
     <?php
@@ -154,25 +155,25 @@
                 <?php if (isset($products) && is_array($products) && count($products) > 0): ?>
                     <div class="row">
                     <?php foreach ($products as $product): ?>
-    <div class="col-md-4">
-        <div class="product-card">
-            <h5><?= htmlspecialchars($product['TenSP']) ?></h5>
-            <?php if (isset($product['Avatar']) && !empty($product['Avatar'])): ?>
-                <img src="<?= htmlspecialchars($product['Avatar']) ?>" alt="<?= htmlspecialchars($product['TenSP']) ?>">
-            <?php else: ?>
-                <img src="default-image.jpg" alt="Hình ảnh không có sẵn">
-            <?php endif; ?>
-            
-            <p>
-                <span style="text-decoration: line-through;"><?= number_format($product['Gia'], 0, ',', '.') ?> VND</span>
-                <br>
-                <span style="color: red;"><?= number_format($product['GiaKM'], 0, ',', '.') ?> VND</span>
-            </p>
-            <a href="index.php?controller=product&action=detail&id=<?= $product['MaSP'] ?>" class="btn btn-primary">Xem chi tiết</a>
-        </div>
-    </div>
-<?php endforeach; ?>
-
+                        <div class="col-md-4">
+                            <div class="product-card">
+                                <h5><?= htmlspecialchars($product['TenSP']) ?></h5>
+                                <?php if (isset($product['Avatar']) && !empty($product['Avatar'])): ?>
+                                    <img src="<?= htmlspecialchars($product['Avatar']) ?>" alt="<?= htmlspecialchars($product['TenSP']) ?>">
+                                <?php else: ?>
+                                    <img src="default-image.jpg" alt="Hình ảnh không có sẵn">
+                                <?php endif; ?>
+                                
+                                <p>
+                                    <span style="text-decoration: line-through;"><?= number_format($product['Gia'], 0, ',', '.') ?> VND</span>
+                                    <br>
+                                    <span style="color: red;"><?= number_format($product['GiaKM'], 0, ',', '.') ?> VND</span>
+                                </p>
+                                <a href="product-detail.php?controller=ProductController&action=detail&id=<?= $product['MaSP'] ?>" class="btn btn-primary">Xem chi tiết</a>
+                                <a href="product-list.php?controller=cart&action=add&id=<?= $product['MaSP'] ?>" class="btn btn-success">Thêm vào giỏ hàng</a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                     </div>
                 <?php else: ?>
                     <p>Không có sản phẩm nào để hiển thị.</p>
@@ -215,7 +216,5 @@
             </div>
         </div>
     </section>
-    
-    <?php include '../partials/footer.php'; ?>
 </body>
 </html>

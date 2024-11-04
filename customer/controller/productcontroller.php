@@ -1,11 +1,14 @@
 <?php
 include_once '../model/product.php';
+include_once '../model/cart.php'; // Thêm dòng này để sử dụng mô hình giỏ hàng
 
 class ProductController {
     private $productModel;
+    private $cartModel; // Khai báo mô hình giỏ hàng
 
     public function __construct() {
         $this->productModel = new Product();
+        $this->cartModel = new Cart(); // Khởi tạo mô hình giỏ hàng
     }
 
     public function list() {
@@ -29,6 +32,19 @@ class ProductController {
             } else {
                 echo "Không tìm thấy sản phẩm.";
             }
+        } else {
+            echo "ID sản phẩm không hợp lệ.";
+        }
+    }
+
+    // Thêm phương thức để thêm sản phẩm vào giỏ hàng
+    public function addToCart() {
+        $productId = $_POST['MaGH'] ?? null; // Lấy ID sản phẩm từ POST
+        $quantity = $_POST['SoLuong'] ?? 1; // Lấy số lượng từ POST, mặc định là 1
+
+        if ($productId) {
+            $this->cartModel->addToCart($productId, $quantity); // Thêm sản phẩm vào giỏ hàng
+            echo "Sản phẩm đã được thêm vào giỏ hàng.";
         } else {
             echo "ID sản phẩm không hợp lệ.";
         }
