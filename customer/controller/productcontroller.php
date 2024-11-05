@@ -1,52 +1,73 @@
 <?php
-include_once '../model/product.php';
-include_once '../model/cart.php'; // Thêm dòng này để sử dụng mô hình giỏ hàng
+require_once '../../config/connect.php';
+require_once '../model/Product.php';
 
 class ProductController {
     private $productModel;
-    private $cartModel; // Khai báo mô hình giỏ hàng
 
     public function __construct() {
         $this->productModel = new Product();
-        $this->cartModel = new Cart(); // Khởi tạo mô hình giỏ hàng
     }
 
-    public function list() {
-        $limit = 9;
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($page - 1) * $limit;
+    public function displayProduct($page = 1) {
+        $limit = 6;
+        $totalProducts = $this->productModel->getTotalProducts(); 
+        $totalPages = ceil($totalProducts / $limit); 
+        $productList = $this->productModel->getProductsByPage($page, $limit);
 
-        $products = $this->productModel->getAllProducts($limit, $offset);
-        $totalProducts = $this->productModel->getTotalProducts();
-        $totalPages = ceil($totalProducts / $limit);
-
-        include '../view/default/product-list.php';
-    }
-
-    public function detail() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $product = $this->productModel->getProductById($id);
-            if ($product) {
-                include '../view/default/product-detail.php';
-            } else {
-                echo "Không tìm thấy sản phẩm.";
-            }
-        } else {
-            echo "ID sản phẩm không hợp lệ.";
+        if (empty($productList)) {
+            echo "Không có sản phẩm nào.";
+            return;
         }
+        foreach ($productList as $product) {
+            echo '<li class="product-item">';
+            $avatarPath = htmlspecialchars($product['Avatar']);
+            $avatarPath = str_replace('\\', '/', $avatarPath);
+            echo '<img src="' . $avatarPath . '" alt="' . htmlspecialchars($product['TenSP']) . '" class="product-image">';
+            echo '<div class="product-details">';
+            echo '<h3 class="product-name"><a href="../view/Product-view.php?action=detail&MaSp=' . $product['MaSP'] . '">' . htmlspecialchars($product['TenSP']) . '</a></h3>';
+            echo '<p class="product-price">Giá: ' . number_format($product['Gia'], 0, ',', '.') . ' VNĐ</p>';
+            echo '<p class="product-discount-price">Giá KM: ' . number_format($product['GiaKM'], 0, ',', '.') . ' VNĐ</p>'; // Hiển thị giá khuyến mãi
+            echo '</div>';
+            echo '</li>';
+        }
+        echo '<div class="pagination">';
+        if ($page > 1) {
+            echo '<a href="?page=' . ($page - 1) . '">&laquo;</a>'; 
+        }
+        for ($i = 1; $i <= $totalPages; $i++) {
+            if ($i == $page) {
+                echo '<strong>' . $i . '</strong> '; 
+            } else {
+                echo '<a href="?page=' . $i . '">' . $i . '</a> '; 
+            }
+        }
+        if ($page < $totalPages) {
+            echo '<a href="?page=' . ($page + 1) . '">&raquo;</a>'; 
+        }
+
+        echo '</div>'; 
     }
+    public function displayProductDetail($id) {
+        $product = $this->productModel->getProductById($id);
+        if (!$product) {
+            echo "Sản phẩm không tồn tại.";
+            return;
+        }else{
+            include '../view/Product-detail.php';
+        }
 
-    // Thêm phương thức để thêm sản phẩm vào giỏ hàng
-    public function addToCart() {
-        $productId = $_POST['MaGH'] ?? null; // Lấy ID sản phẩm từ POST
-        $quantity = $_POST['SoLuong'] ?? 1; // Lấy số lượng từ POST, mặc định là 1
-
-        if ($productId) {
-            $this->cartModel->addToCart($productId, $quantity); // Thêm sản phẩm vào giỏ hàng
-            echo "Sản phẩm đã được thêm vào giỏ hàng.";
+    }
+    public function removeProductFromCart($userId) {
+        if ($userId > 0 && isset($_GET['product_id'])) {
+            $productId = $_GET['product_id'];
+            // Logic xóa sản phẩm khỏi giỏ hàng
+            $this->cartModel->removeFromCart($userId, $productId);
+            header('Location: ../view/Cart.php?message=Sản phẩm đã được xóa khỏi giỏ hàng.');
+            exit();
         } else {
-            echo "ID sản phẩm không hợp lệ.";
+            header('Location: ../view/Cart.php?error=Không thể xóa sản phẩm.');
+            exit();
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
-// Bắt đầu session để quản lý đăng nhập nếu cần
-session_start();
 
+session_start();
+include_once'../admin/views/login.php';
 // Bao gồm các file cấu hình cần thiết
 include_once '../admin/controllers/BannerController.php';
 // include_once 'controllers/FooterController.php';

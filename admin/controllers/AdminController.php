@@ -1,11 +1,11 @@
 <?php
 class AdminController {
     public function login() {
-        include "views/admin/login.php";
+        include "../views/login.php";
     }
 
     public function dashboard() {
-        include "views/admin/dashboard.php";
+        include "../views/dashboard.php";
     }
 
     public function authenticate($username, $password) {
