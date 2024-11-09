@@ -61,8 +61,9 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
                                                     <span class="cart-item-name"><?php echo htmlspecialchars($item['TenSP']); ?></span>
                                                     <span class="cart-item-price"><?php echo number_format($item['GiaKM'], 0, ',', '.'); ?> VNĐ</span>
                                                     <span class="cart-item-quantity"><?php echo $item['Soluong']; ?></span>
-                                                    <a href="../controller/CartController.php?action=remove&product_id=<?php echo $item['MaSP']; ?>" class="remove-item">x</a>
+                                                    
                                                 </div>
+                                                <a href="../controller/CartController.php?action=remove&product_id=<?php echo $item['MaSP']; ?>" class="remove-item">x</a>
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>

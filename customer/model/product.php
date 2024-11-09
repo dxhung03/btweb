@@ -24,6 +24,12 @@ class Product {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function getProductByCategory($category){
+        $stmt = $this->conn->prepare("select * from" . $this->table_name ."where Danhmuc = :Danhmuc");
+        $stm->bindParam(':Danhmuc', $category, PDO::PARAM_STRING);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     public function getProductsByPage($page, $limit) {
         // Kiểm tra giá trị của page và limit
         if ($page < 1) $page = 1;

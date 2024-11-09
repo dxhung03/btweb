@@ -48,6 +48,14 @@ class ProductController {
 
         echo '</div>'; 
     }
+    public function displayProductCategory($category){
+        $product = $thi->productModel->getProductByCategory($category);
+        if(!$product){
+            echo"Sản phẩm không tồn tại.";
+        }else{
+            include'../view';
+        }
+    }
     public function displayProductDetail($id) {
         $product = $this->productModel->getProductById($id);
         if (!$product) {
