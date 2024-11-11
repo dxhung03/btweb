@@ -12,7 +12,7 @@
         <div class="product-detail">
             <h2 class="text-center">Chi tiết Sản phẩm</h2>
             <h3><?php echo htmlspecialchars($product['TenSP']); ?></h3>
-            <img src="<?php echo htmlspecialchars($product['Avatar']); ?>" alt="<?php echo htmlspecialchars($product['TenSP']); ?>" class="img-fluid">
+            <img src="<?php echo htmlspecialchars("/baitaplonweb/".$product['Avatar']); ?>" alt="<?php echo htmlspecialchars($product['TenSP']); ?>" class="img-fluid">
             <div class="product-description mt-3">
                 <p>Mô tả: <?php echo htmlspecialchars($product['Mota']); ?></p>
                 <p class="product-price">Giá: <?php echo number_format($product['Gia'], 0, ',', '.'); ?> VNĐ</p>

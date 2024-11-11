@@ -1,21 +1,30 @@
 <?php
 session_start();
 require_once '../controller/CartController.php';
+require_once '../controller/ProductController.php';
 
+// Xử lý giỏ hàng
 $cartController = new CartController();
-$userId = $_SESSION['user_id'] ?? 0; 
-$cartItems = $cartController->displayCart($userId); // Lấy danh sách sản phẩm trong giỏ hàng
+$userId = $_SESSION['user_id'] ?? 0;
+$cartItems = $cartController->displayCart($userId);
 $cartItemCount = count($cartItems);
-$totalAmount = 0; // Khởi tạo tổng số tiền
+$totalAmount = 0;
 
-// Tính toán tổng giá trị giỏ hàng
+// Tính tổng giá trị giỏ hàng
 if ($userId > 0 && !empty($cartItems)) {
     foreach ($cartItems as $item) {
-        $totalAmount += $item['GiaKM'] * $item['Soluong']; // Giả định GiaKM là giá đã giảm
+        $totalAmount += $item['GiaKM'] * $item['Soluong'];
     }
 }
 
-$userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người dùng
+$userName = $_SESSION['user_name'] ?? 'Người dùng'; // Tên người dùng
+
+// Xử lý hiển thị sản phẩm theo danh mục hoặc phân trang
+$controller = new ProductController();
+$categoryId = isset($_GET['category']) ? (int)$_GET['category'] : 0;
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+$id = isset($_GET['MaSp']) ? (int)$_GET['MaSp'] : 0;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +64,7 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
                                     <?php foreach ($cartItems as $item): ?>
                                         <div class="cart-item">
                                             
-                                        <img src="<?php echo htmlspecialchars($item['Avatar']); ?>" alt="<?php echo htmlspecialchars($item['TenSP']); ?>" class="cart-item-image">
+                                        <img src="<?php echo htmlspecialchars("/baitaplonweb/".$item['Avatar']); ?>" alt="<?php echo htmlspecialchars($item['TenSP']); ?>" class="cart-item-image">
                                             <div class="cart-item-details">
                                                 
                                                 <span class="cart-item-name"><?php echo htmlspecialchars($item['TenSP']); ?></span>
@@ -104,23 +113,23 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
                     <a class="nav-link text-white" href="../view/Product-view.php">Sản phẩm</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link text-white dropdown-toggle" href="#" id="dropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link text-white dropdown-toggle" href="../view/Product-view.php?category=1" id="dropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Áo bóng đá
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        <a class="dropdown-item" href="#">Áo câu lạc bộ</a>
-                        <a class="dropdown-item" href="#">Áo đội tuyển quốc gia</a>
-                        <a class="dropdown-item" href="#">Áo bóng đá không logo</a>
+                        <a class="dropdown-item" href="../view/Product-view.php?category=5">Áo câu lạc bộ</a>
+                        <a class="dropdown-item" href="../view/Product-view.php?category=6">Áo đội tuyển quốc gia</a>
+                        <a class="dropdown-item" href="../view/Product-view.php?category=7">Áo bóng đá không logo</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Áo bóng chuyền</a>
+                    <a class="nav-link text-white" href="../view/Product-view.php?category=2">Áo bóng chuyền</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Áo bóng rổ</a>
+                    <a class="nav-link text-white" href="../view/Product-view.php?category=3">Áo bóng rổ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Áo game</a>
+                    <a class="nav-link text-white" href="../view/Product-view.php?category=4">Áo game</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="#">Liên hệ</a>
@@ -132,22 +141,18 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
     <section class="products">
         <div class="container">
             <ul class="product-list">
-            <?php
-                require_once '../controller/ProductController.php';
-                $controller = new ProductController();
-                $action = isset($_GET['action']) ? $_GET['action'] : '';
-                $id = isset($_GET['MaSp']) ? (int)$_GET['MaSp'] : 0;
 
+            <?php
                 if ($action === 'detail' && $id > 0) {
+                    // Hiển thị chi tiết sản phẩm
                     echo '<div class="product-detail">';
                     $controller->displayProductDetail($id);
+                    echo '</div>';
+                } elseif ($categoryId > 0) {
+                    // Hiển thị sản phẩm theo danh mục
+                    $controller->displayProductCategory($categoryId);
                 } else {
-                    // Hiển thị danh sách sản phẩm khi không có action hoặc action không phải là detail
-                    echo '<h2 class="text-center">Danh sách Sản phẩm</h2>';
-                    echo '<ul class="product-list">';
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     $controller->displayProduct($page);
-                    echo '</ul>';
                 }
             ?>
             </ul>
@@ -160,36 +165,27 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
                 <div class="col-md-4">
                     <h5>Liên Hệ</h5>
                     <p>Email: ab@gmail.com</p>
-                    <p>Điện thoại: 0000 000 000</p>
-                    <p>Địa chỉ: 123 Đường ABC, Quận ABC, Thành phố Hà Nội</p>
+                    <p>Điện thoại: 000000000</p>
                 </div>
                 <div class="col-md-4">
-                    <h5>Liên Kết Nhanh</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="index.php" class="text-white">Giới thiệu</a></li>
-                        <li><a href="products.php" class="text-white">Sản phẩm</a></li>
-                        <li><a href="#" class="text-white">Tin tức</a></li>
-                        <li><a href="#" class="text-white">Liên hệ</a></li>
-                    </ul>
+                    <h5>Mạng xã hội</h5>
+                    <a href="#" class="text-white mr-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white mr-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
                 </div>
                 <div class="col-md-4">
-                    <h5>Theo Dõi Chúng Tôi</h5>
-                    <ul class="list-unstyled d-flex">
-                        <li><a href="#" class="text-white mr-3">Facebook</a></li>
-                        <li><a href="#" class="text-white mr-3">Instagram</a></li>
-                        <li><a href="#" class="text-white">Twitter</a></li>
+                    <h5>Thông tin khác</h5>
+                    <ul>
+                        <li><a href="#" class="text-white">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-white">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-white">Giới thiệu</a></li>
                     </ul>
                 </div>
-            </div>
-            <hr class="bg-white">
-            <div class="text-center">
-                <p>&copy; 2024 Đồ Thể Thao HDDT. Bảo lưu mọi quyền.</p>
-            </div>
-            <div class="logo" style="text-align: center">
-                <a href="#"><img src="../../picture/logo.png" alt="Logo" height="50"></a>
             </div>
         </div>
+        <div class="text-center py-3">© 2024 Đồ Thể Thao HDDT</div>
     </footer>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

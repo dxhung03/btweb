@@ -21,8 +21,7 @@ class ProductController {
         }
         foreach ($productList as $product) {
             echo '<li class="product-item">';
-            $avatarPath = htmlspecialchars($product['Avatar']);
-            $avatarPath = str_replace('\\', '/', $avatarPath);
+            $avatarPath = "/baitaplonweb/" . $product['Avatar'];
             echo '<img src="' . $avatarPath . '" alt="' . htmlspecialchars($product['TenSP']) . '" class="product-image">';
             echo '<div class="product-details">';
             echo '<h3 class="product-name"><a href="../view/Product-view.php?action=detail&MaSp=' . $product['MaSP'] . '">' . htmlspecialchars($product['TenSP']) . '</a></h3>';
@@ -48,14 +47,35 @@ class ProductController {
 
         echo '</div>'; 
     }
-    public function displayProductCategory($category){
-        $product = $thi->productModel->getProductByCategory($category);
-        if(!$product){
-            echo"Sản phẩm không tồn tại.";
-        }else{
-            include'../view';
+    
+    
+    
+    public function displayProductCategory($categoryId) {
+        $products = $this->productModel->getProductByCategory($categoryId);
+        
+        if (empty($products)) {
+            echo "<p>Không có sản phẩm nào trong danh mục này.</p>";
+            return;
         }
+    
+        echo '<ul class="product-list">';
+        foreach ($products as $product) {
+            echo '<li class="product-item">';
+            echo '<img src="/baitaplonweb/' . htmlspecialchars($product['Avatar']) . '" alt="' . htmlspecialchars($product['TenSP']) . '" class="product-image">';
+            echo '<div class="product-details">';
+            echo '<h3 class="product-name"><a href="../view/Product-view.php?action=detail&MaSp=' . $product['MaSP'] . '">' . htmlspecialchars($product['TenSP']) . '</a></h3>';
+            echo '<p class="product-price">Giá: ' . number_format($product['Gia'], 0, ',', '.') . ' VNĐ</p>';
+            if ($product['GiaKM']) {
+                echo '<p class="product-discount-price">Giá KM: ' . number_format($product['GiaKM'], 0, ',', '.') . ' VNĐ</p>';
+            }
+            echo '</div>';
+            echo '</li>';
+        }
+        echo '</ul>';
     }
+    
+    
+    
     public function displayProductDetail($id) {
         $product = $this->productModel->getProductById($id);
         if (!$product) {

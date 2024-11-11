@@ -25,11 +25,11 @@ class Product {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function getProductByCategory($category){
-        $stmt = $this->conn->prepare("select * from" . $this->table_name ."where Danhmuc = :Danhmuc");
-        $stm->bindParam(':Danhmuc', $category, PDO::PARAM_STRING);
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE MaDM = :Danhmuc");
+        $stmt->bindParam(':Danhmuc', $category, PDO::PARAM_INT); // Đổi $stm thành $stmt
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Trả về tất cả các sản phẩm theo danh mục
+    }       
     public function getProductsByPage($page, $limit) {
         // Kiểm tra giá trị của page và limit
         if ($page < 1) $page = 1;

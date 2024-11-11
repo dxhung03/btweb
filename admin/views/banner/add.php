@@ -13,25 +13,20 @@
         <?php include 'Views/sidebar.php'; ?>
 
         <div class="main-content">
-            <h2>Sửa Banner</h2>
-            <form action="index.php?controller=banner&action=edit" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="MaBanner" value="<?php echo $banner['MaBanner']; ?>">
+            <h2>Thêm mới Banner</h2>
+            <form action="index.php?controller=banner&action=add" method="POST" enctype="multipart/form-data">
                 <table class="table">
                     <tr>
                         <td><label for="Name">Tên Banner:</label></td>
-                        <td><input type="text" name="Name" value="<?php echo $banner['Name']; ?>" required></td>
+                        <td><input type="text" name="Name" required></td>
                     </tr>
                     <tr>
                         <td><label for="Avatar">Hình ảnh Banner:</label></td>
-                        <td>
-                            <input type="file" name="Avatar" accept="image/*">
-                            <br>
-                            <img src="<?php echo $banner['Avatar']; ?>" alt="Hình ảnh Banner" style="width: 100px; height: auto; margin-top: 10px;">
-                        </td>
+                        <td><input type="file" name="Avatar" accept="image/*" required></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <input type="submit" value="Lưu thay đổi">
+                            <input type="submit" value="Thêm mới">
                             <input type="button" value="Quay lại" onclick="history.back();">
                         </td>
                     </tr>

@@ -36,7 +36,6 @@ body {
 .logo img {
     max-height: 50px;
 }
-
 .search-bar {
     flex: 1;
     margin: 0 20px;
@@ -356,3 +355,10 @@ body {
 .product-detail .back-button a:hover {
     background-color: #2980b9;
 }
+.col-lg-2 {
+    flex: 0 0 19%; 
+    max-width: 19%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+

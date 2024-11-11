@@ -1,52 +1,69 @@
 <?php
-require_once '../../config/connect.php';
-
-class Banner {
+class Banner{
     private $conn;
-    private $table_name = "banner";
 
-    public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+    public function __construct($db) {
+        $this->conn = $db;
     }
-
+  
+    // Phương thức lấy tất cả footer
     public function getAllBanners() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM banner";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBannerById($id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE MaBanner = :id";
+    // Phương thức thêm footer mới
+    public function addBanner($Name, $Avatar) {
+        $query = "INSERT INTO banner (Name, Avatar) VALUES (:Name, :Avatar)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(':Name', $Name, PDO::PARAM_STR);
+        $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+    
+    // Phương thức lấy footer theo ID
+    public function getBannerById($id) {
+        $query = "SELECT * FROM banner WHERE MaBanner = :id";
+        $stmt = $this->conn->prepare($query);
+        if ($stmt === false) {
+            return false;
+        }
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createBanner($name, $avatar) {
-        $query = "INSERT INTO " . $this->table_name . " (Name, Avatar) VALUES (:name, :avatar)";
+    // Phương thức cập nhật footer
+    public function updateBanner($id, $Name, $Avatar) {
+        $query = "UPDATE banner SET Name = :Name, Avatar = :Avatar WHERE MaBanner = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":name", $name);
-        $stmt->bindParam(":avatar", $avatar);
-        return $stmt->execute();
+        if ($stmt === false) {
+            echo "Lỗi trong câu lệnh SQL: " . $this->conn->errorInfo()[2];
+            return false;
+        }
+        $stmt->bindValue(':Name', $Name, PDO::PARAM_STR);
+        $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        if ($result === false) {
+            echo "Lỗi khi thực thi câu lệnh: " . $stmt->errorInfo()[2];
+        }
+        return $result;
     }
 
-    public function updateBanner($id, $name, $avatar) {
-        $query = "UPDATE " . $this->table_name . " SET Name = :name, Avatar = :avatar WHERE MaBanner = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":name", $name);
-        $stmt->bindParam(":avatar", $avatar);
-        return $stmt->execute();
-    }
-
+    // Phương thức xóa 
     public function deleteBanner($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE MaBanner = :id";
+        $query = "DELETE FROM banner WHERE MaBanner = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    
+        if ($stmt === false) {
+            echo "Lỗi trong câu lệnh SQL: " . $this->conn->errorInfo()[2];
+            return false;
+        }
+    
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }
-?>

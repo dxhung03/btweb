@@ -13,20 +13,20 @@
         <?php include 'Views/sidebar.php'; ?>
 
         <div class="main-content">
-            <h2>Sửa Banner</h2>
-            <form action="index.php?controller=banner&action=edit" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="MaBanner" value="<?php echo $banner['MaBanner']; ?>">
+            <h2>Sửa Footer</h2>
+            <form action="index.php?controller=footer&action=edit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="MaFooter" value="<?php echo $footer['MaFooter']; ?>">
                 <table class="table">
                     <tr>
-                        <td><label for="Name">Tên Banner:</label></td>
-                        <td><input type="text" name="Name" value="<?php echo $banner['Name']; ?>" required></td>
+                        <td><label for="Name">Tên Footer:</label></td>
+                        <td><input type="text" name="Name" value="<?php echo $footer['Name']; ?>" required></td>
                     </tr>
                     <tr>
-                        <td><label for="Avatar">Hình ảnh Banner:</label></td>
+                        <td><label for="Avatar">Hình ảnh Footer:</label></td>
                         <td>
                             <input type="file" name="Avatar" accept="image/*">
                             <br>
-                            <img src="<?php echo $banner['Avatar']; ?>" alt="Hình ảnh Banner" style="width: 100px; height: auto; margin-top: 10px;">
+                            <img src="<?php echo $footer['Avatar']; ?>" alt="Hình ảnh Footer" style="width: 100px; height: auto; margin-top: 10px;">
                         </td>
                     </tr>
                     <tr>

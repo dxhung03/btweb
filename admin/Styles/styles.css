@@ -1,0 +1,233 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.header {
+    color: white;
+    display: flex;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    height: 100px;
+}
+
+.header-left {
+    background-color: #3399FF;
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    margin-left: 10px;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.header-left span {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.header-right {
+    background-color: #3399FF;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    margin-left: 10px;
+    border-radius: 8px 8px 0 8px;
+    padding: 10px;
+}
+
+.logout {
+    color: white;
+    font-size: 16px;
+}
+
+
+.main-container {
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+    padding: 0 10px;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    color: #3399FF;
+    border-radius: 8px;
+    margin-right: 10px;
+    height: calc(100vh - 110px);
+    overflow-y: auto;
+}
+
+.sidebar .group {
+    margin-bottom: 25px;
+    border: 1px solid #3399FF;
+    border-radius: 8px;
+}
+
+.sidebar .group h3 {
+    background-color: #2277CC;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px 6px 0 0;
+}
+
+.sidebar .group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+}
+
+.sidebar .group ul li {
+    border-top: 1px solid #3399FF;
+}
+
+.sidebar .group ul li a {
+    color: #2277CC;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.sidebar .group ul li a:hover {
+    background-color: #2277CC;
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border: 2px solid #3399FF;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.main-content h2 {
+    color: #3399FF;
+    text-align: center;
+    margin: 0 auto 20px auto;
+    padding: 5px 0;
+    font-size: 20px;
+    text-transform: uppercase;
+    position: relative;
+    width: fit-content;
+}
+
+.main-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #3399FF;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;  
+    margin-top: 10px;
+}
+
+.table th, .table td {
+    border: 1px solid #3399FF;
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #3399FF;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table a {
+    color: #2277CC;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+input[type="text"], input[type="email"], select {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"], input[type="button"] {
+    padding: 5px 15px;
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.image-display {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Phong cách cho ảnh lớn */
+img.fullscreen-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 90vh; /* Giới hạn chiều cao ảnh */
+    object-fit: contain; /* Đảm bảo ảnh không bị bóp méo */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ xung quanh ảnh */
+}
+
+
+
