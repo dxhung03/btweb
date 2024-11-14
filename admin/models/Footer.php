@@ -15,11 +15,14 @@ class Footer {
     }
 
     // Phương thức thêm footer mới
-    public function addFooter($Name, $Avatar) {
-        $query = "INSERT INTO footer (Name, Avatar) VALUES (:Name, :Avatar)";
+    public function addFooter($Name, $Avatar, $Chinhsach, $Thuonghieu, $Lienhe) {
+        $query = "INSERT INTO footer (Name, Avatar, Chinhsach, Thuonghieu, Lienhe) VALUES (:Name, :Avatar, :Chinhsach, :Thuonghieu, :Lienhe)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':Name', $Name, PDO::PARAM_STR);
         $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);
+        $stmt->bindValue(':Chinhsach', $Chinhsach, PDO::PARAM_STR);
+        $stmt->bindValue(':Thuonghieu', $Thuonghieu, PDO::PARAM_STR);
+        $stmt->bindValue(':Lienhe', $Lienhe, PDO::PARAM_STR);
         return $stmt->execute();
     }
     
@@ -36,8 +39,8 @@ class Footer {
     }
 
     // Phương thức cập nhật footer
-    public function updateFooter($id, $Name, $Avatar) {
-        $query = "UPDATE footer SET Name = :Name, Avatar = :Avatar WHERE MaFooter = :id";
+    public function updateFooter($id, $Name, $Avatar, $Chinhsach, $Thuonghieu, $Lienhe) {
+        $query = "UPDATE footer SET Name = :Name, Avatar = :Avatar, Chinhsach = :Chinhsach, Thuonghieu = :Thuonghieu, Lienhe = :Lienhe WHERE MaFooter = :id";
         $stmt = $this->conn->prepare($query);
         if ($stmt === false) {
             echo "Lỗi trong câu lệnh SQL: " . $this->conn->errorInfo()[2];
@@ -45,6 +48,9 @@ class Footer {
         }
         $stmt->bindValue(':Name', $Name, PDO::PARAM_STR);
         $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);
+        $stmt->bindValue(':Chinhsach', $Chinhsach, PDO::PARAM_STR);
+        $stmt->bindValue(':Thuonghieu', $Thuonghieu, PDO::PARAM_STR);
+        $stmt->bindValue(':Lienhe', $Lienhe, PDO::PARAM_STR);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $result = $stmt->execute();
         if ($result === false) {

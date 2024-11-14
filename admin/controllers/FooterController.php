@@ -23,39 +23,33 @@ class FooterController {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Kiểm tra và gán giá trị mặc định nếu không có giá trị đầu vào
         $name = isset($_POST['Name']) ? $_POST['Name'] : '';
-
+        $chinhsach = isset($_POST['Chinhsach']) ? $_POST['Chinhsach'] : '';
+        $Thuonghieu = isset($_POST['Thuonghieu']) ? $_POST['Thuonghieu'] : '';
+        $Lienhe = isset($_POST['Lienhe']) ? $_POST['Lienhe'] : '';
+        
         // Tạo thư mục uploads nếu chưa tồn tại
-        $targetDir = "../uploads/";
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-
-        // Xử lý tệp hình ảnh (Avatar) nếu có
-        $avatar = '';
-        if (!empty($_FILES['Avatar']['name'])) {
-            // Tạo tên file duy nhất để tránh ghi đè
-            $avatarFileName = time() . '_' . basename($_FILES['Avatar']['name']);
+            $avatar = '';
+           $targetDir = __DIR__ . '/../../picture/';
+           if (!empty($_FILES['Avatar']['name'])) {
+            $avatarFileName = basename($_FILES['Avatar']['name']);
             $targetFilePath = $targetDir . $avatarFileName;
 
-            // Kiểm tra loại file
-            $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif']; // Các loại file hợp lệ
-            if (in_array($fileType, $allowedTypes)) {
-                // Di chuyển file đến thư mục đích
-                if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
-                    $avatar = $targetFilePath;
-                } else {
-                    echo "Có lỗi khi tải lên tệp hình ảnh.";
-                    return;
-                }
+            // Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Thực hiện tải tệp lên
+            if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
+                $avatar = 'picture/' . $avatarFileName; // Lưu đường dẫn tương đối để lưu vào cơ sở dữ liệu
             } else {
-                echo "Chỉ cho phép các file có đuôi jpg, jpeg, png, và gif.";
+                echo "Có lỗi khi tải lên tệp hình ảnh.";
                 return;
             }
         }
 
         // Thêm footer vào cơ sở dữ liệu
-        $result = $this->footerModel->addFooter($name, $avatar);
+        $result = $this->footerModel->addFooter($name, $avatar,$chinhsach,$Thuonghieu,$Lienhe);
 
         if ($result) {
             header("Location: index.php?controller=footer&action=list");
@@ -73,32 +67,38 @@ class FooterController {
     public function edit() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['MaFooter'];
-    
+            $name = isset($_POST['Name']) ? $_POST['Name'] : '';
+            $chinhsach = isset($_POST['Chinhsach']) ? $_POST['Chinhsach'] : '';
+            $Thuonghieu = isset($_POST['Thuonghieu']) ? $_POST['Thuonghieu'] : '';
+            $Lienhe = isset($_POST['Lienhe']) ? $_POST['Lienhe'] : '';
             // Tạo thư mục uploads nếu chưa tồn tại
-            $targetDir = "uploads/";
-            if (!is_dir($targetDir)) {
-                mkdir($targetDir, 0777, true);
-            }
-    
-            // Xử lý tệp hình ảnh (Avatar) nếu có
-            $avatar = isset($_POST['OldAvatar']) ? $_POST['OldAvatar'] : '';
+            $avatar = '';
+            $targetDir = __DIR__ . '/../../picture/';
             if (!empty($_FILES['Avatar']['name'])) {
-                $avatarFileName = basename($_FILES['Avatar']['name']);
-                $targetFilePath = $targetDir . $avatarFileName;
-    
-                // Di chuyển file đến thư mục đích
-                if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
-                    $avatar = $targetFilePath;
-                } else {
-                    echo "Có lỗi khi tải lên tệp hình ảnh.";
-                    return;
-                }
+             $avatarFileName = basename($_FILES['Avatar']['name']);
+             $targetFilePath = $targetDir . $avatarFileName;
+ 
+             // Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
+             if (!is_dir($targetDir)) {
+                 mkdir($targetDir, 0777, true);
+             }
+ 
+             // Thực hiện tải tệp lên
+             if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
+                 $avatar = 'picture/' . $avatarFileName; // Lưu đường dẫn tương đối để lưu vào cơ sở dữ liệu
+             } else {
+                 echo "Có lỗi khi tải lên tệp hình ảnh.";
+                 return;
+             }
             }
     
             $result = $this->footerModel->updateFooter(
                 $id,
-                $_POST['Name'],
-                $avatar
+                $name,
+                $avatar,
+                $chinhsach,
+                $Thuonghieu,
+                $Lienhe
             );
     
             if ($result) {

@@ -21,6 +21,18 @@
                         <td><input type="text" name="Name" required></td>
                     </tr>
                     <tr>
+                        <td><label for="Chinhsach">Chính sách:</label></td>
+                        <td><input type="text" name="Chinhsach" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Thuonghieu">Thương hiệu:</label></td>
+                        <td><input type="text" name="Thuonghieu" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Lienhe">Liên hệ:</label></td>
+                        <td><input type="text" name="Lienhe" required></td>
+                    </tr>
+                    <tr>
                         <td><label for="Avatar">Hình ảnh Footer:</label></td>
                         <td><input type="file" name="Avatar" accept="image/*" required></td>
                     </tr>

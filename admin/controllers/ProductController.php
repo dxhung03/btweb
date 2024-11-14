@@ -61,7 +61,6 @@ class ProductController {
                 return;
             }
         }
-
         $result = $this->productModel->addProduct($tenSP, $gia, $giaKM, $soluong, $soluotmua, $mota, $danhmuc, $avatar);
 
         if ($result) {

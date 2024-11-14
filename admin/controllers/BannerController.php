@@ -22,24 +22,24 @@ class BannerController {
             $name = isset($_POST['Name']) ? $_POST['Name'] : '';
     
              // Tạo thư mục uploads nếu chưa tồn tại
-             $targetDir = "uploads/";
-             if (!is_dir($targetDir)) {
-                 mkdir($targetDir, 0777, true);
-             }
-     
-             // Xử lý tệp hình ảnh (Avatar) nếu có
              $avatar = '';
-             if (!empty($_FILES['Avatar']['name'])) {
-                 $avatarFileName = basename($_FILES['Avatar']['name']);
-                 $targetFilePath = $targetDir . $avatarFileName;
-     
-                 // Di chuyển file đến thư mục đích
-                 if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
-                     $avatar = $targetFilePath;
-                 } else {
-                     echo "Có lỗi khi tải lên tệp hình ảnh.";
-                     return;
-                 }
+           $targetDir = __DIR__ . '/../../picture/';
+           if (!empty($_FILES['Avatar']['name'])) {
+            $avatarFileName = basename($_FILES['Avatar']['name']);
+            $targetFilePath = $targetDir . $avatarFileName;
+
+            // Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Thực hiện tải tệp lên
+            if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
+                $avatar = 'picture/' . $avatarFileName; // Lưu đường dẫn tương đối để lưu vào cơ sở dữ liệu
+            } else {
+                echo "Có lỗi khi tải lên tệp hình ảnh.";
+                return;
+            }
              }
     
             // Thêm footer vào cơ sở dữ liệu
@@ -61,24 +61,24 @@ class BannerController {
             $id = $_POST['MaBanner'];
     
             // Tạo thư mục uploads nếu chưa tồn tại
-            $targetDir = "uploads/";
+            $avatar = '';
+           $targetDir = __DIR__ . '/../../picture/';
+           if (!empty($_FILES['Avatar']['name'])) {
+            $avatarFileName = basename($_FILES['Avatar']['name']);
+            $targetFilePath = $targetDir . $avatarFileName;
+
+            // Kiểm tra nếu thư mục chưa tồn tại thì tạo mới
             if (!is_dir($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
-    
-            // Xử lý tệp hình ảnh (Avatar) nếu có
-            $avatar = isset($_POST['OldAvatar']) ? $_POST['OldAvatar'] : '';
-            if (!empty($_FILES['Avatar']['name'])) {
-                $avatarFileName = basename($_FILES['Avatar']['name']);
-                $targetFilePath = $targetDir . $avatarFileName;
-    
-                // Di chuyển file đến thư mục đích
-                if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
-                    $avatar = $targetFilePath;
-                } else {
-                    echo "Có lỗi khi tải lên tệp hình ảnh.";
-                    return;
-                }
+
+            // Thực hiện tải tệp lên
+            if (move_uploaded_file($_FILES['Avatar']['tmp_name'], $targetFilePath)) {
+                $avatar = 'picture/' . $avatarFileName; // Lưu đường dẫn tương đối để lưu vào cơ sở dữ liệu
+            } else {
+                echo "Có lỗi khi tải lên tệp hình ảnh.";
+                return;
+            }
             }
     
             $result = $this->bannerModel->updateBanner(

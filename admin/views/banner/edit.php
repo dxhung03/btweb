@@ -26,7 +26,7 @@
                         <td>
                             <input type="file" name="Avatar" accept="image/*">
                             <br>
-                            <img src="<?php echo $banner['Avatar']; ?>" alt="Hình ảnh Banner" style="width: 100px; height: auto; margin-top: 10px;">
+                            <img src="<?php echo "/baitaplonweb/".$banner['Avatar']; ?>" alt="Hình ảnh Banner" style="width: 100px; height: auto; margin-top: 10px;">
                         </td>
                     </tr>
                     <tr>

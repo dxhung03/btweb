@@ -22,11 +22,23 @@
                         <td><input type="text" name="Name" value="<?php echo $footer['Name']; ?>" required></td>
                     </tr>
                     <tr>
+                        <td><label for="Chinhsach">Chính sách:</label></td>
+                        <td><input type="text" name="Chinhsach" value = "<?php echo $footer['Chinhsach']; ?>"required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Thuonghieu">Thương hiệu:</label></td>
+                        <td><input type="text" name="Thuonghieu" value = "<?php echo $footer['Thuonghieu']; ?>" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="Lienhe">Liên hệ:</label></td>
+                        <td><input type="text" name="Lienhe" value = "<?php echo $footer['Lienhe']; ?>" required></td>
+                    </tr>
+                    <tr>
                         <td><label for="Avatar">Hình ảnh Footer:</label></td>
                         <td>
                             <input type="file" name="Avatar" accept="image/*">
                             <br>
-                            <img src="<?php echo $footer['Avatar']; ?>" alt="Hình ảnh Footer" style="width: 100px; height: auto; margin-top: 10px;">
+                            <img src="<?php echo "/baitaplonweb/".$footer['Avatar']; ?>" alt="Hình ảnh Footer" style="width: 100px; height: auto; margin-top: 10px;">
                         </td>
                     </tr>
                     <tr>

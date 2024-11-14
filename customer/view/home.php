@@ -1,3 +1,34 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require_once '../controller/CartController.php';
+require_once '../controller/BannerController.php';
+
+// Lấy thông tin giỏ hàng
+$cartController = new CartController();
+$userId = $_SESSION['user_id'] ?? 0;
+$cartItems = $cartController->displayCart($userId);
+$cartItemCount = count($cartItems);
+$totalAmount = 0;
+
+if ($userId > 0 && !empty($cartItems)) {
+    foreach ($cartItems as $item) {
+        $totalAmount += $item['GiaKM'] * $item['Soluong'];
+    }
+}
+
+// Lấy tên người dùng
+$userName = $_SESSION['user_name'] ?? 'Người dùng';
+
+// Lấy danh sách banner từ controller
+$bannerController = new BannerController();
+$banners = $bannerController->getBanners();
+
+include '../view/header.php';
+include '../view/nav.php';
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -9,133 +40,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
-<?php
-session_start();
-require_once '../controller/CartController.php';
 
-$cartController = new CartController();
-$userId = $_SESSION['user_id'] ?? 0; 
-$cartItems = $cartController->displayCart($userId); // Lấy danh sách sản phẩm trong giỏ hàng
-$cartItemCount = count($cartItems);
-$totalAmount = 0; // Khởi tạo tổng số tiền
-
-// Tính toán tổng giá trị giỏ hàng
-if ($userId > 0 && !empty($cartItems)) {
-    foreach ($cartItems as $item) {
-        $totalAmount += $item['GiaKM'] * $item['Soluong']; // Giả định GiaKM là giá đã giảm
-    }
-}
-
-$userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người dùng
-?>
-<style>
-
-.banner-images {
-    width: 100%;
-    height: 100%;
-
-}
-
-</style>
 <body>
-    <header class="header">
-        <div class="top-bar">
-            <div class="container d-flex justify-content-between align-items-center">
-                <div class="contact-info">
-                    <span>Email: ab@gmail.com</span> | 
-                    <span>09:00 - 18:00</span>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="header-content d-flex justify-content-between align-items-center py-3">
-                <div class="logo">
-                    <a href="#"><img src="../../picture/logo.png" alt="Logo" height="50"></a>
-                </div>
-                <div class="search-bar">
-                    <input type="text" placeholder="Từ khóa tìm kiếm..." class="form-control" aria-label="Từ khóa tìm kiếm">
-                    <button class="btn btn-primary">Tìm kiếm</button>
-                </div>              
-                <div class="cart">
-                    <a href="../view/Cart.php" class="cart-icon">
-                        GIỎ HÀNG / <span id="cart-count"><?php echo $cartItemCount; ?></span>
-                        <div class="cart-dropdown">
-                            <div class="cart-items">
-                                <?php if (count($cartItems) > 0): ?>
-                                    <?php foreach ($cartItems as $item): ?>
-                                        <div class="cart-item">
-                                            <img src="<?php echo htmlspecialchars("/baitaplonweb/".$item['Avatar']); ?>" alt="<?php echo htmlspecialchars($item['TenSP']); ?>" class="cart-item-image">
-                                                <div class="cart-item-details">
-                                                    <span class="cart-item-name"><?php echo htmlspecialchars($item['TenSP']); ?></span>
-                                                    <span class="cart-item-price"><?php echo number_format($item['GiaKM'], 0, ',', '.'); ?> VNĐ</span>
-                                                    <span class="cart-item-quantity"><?php echo $item['Soluong']; ?></span>
-                                                    
-                                                </div>
-                                                <a href="../controller/CartController.php?action=remove&product_id=<?php echo $item['MaSP']; ?>" class="remove-item">x</a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <p>Giỏ hàng trống.</p>
-                                <?php endif; ?>
-                            </div>
-                            <div class="cart-total">
-                                <strong>Tổng:</strong> <span id="cart-total"><?php echo number_format($totalAmount, 0, ',', '.'); ?> VNĐ</span>
-                            </div>
-                            <a href="../view/Cart.php" class="btn btn-primary">Xem Giỏ Hàng</a>
-                            <a href="../view/Checkout.php" class="btn btn-secondary">Thanh Toán</a>
-                        </div>
-                    </a>
-                </div>
-                <div class="contact-number">
-                    <a href="tel:000000000" >ZALO: 000000000</a>
-                </div>
-                <div class="login">
-            <?php if ($userId > 0): ?>
-                <span class="text-black">Xin chào, <?php echo htmlspecialchars($userName); ?>!</span>
-                <a href="logout.php" class="text-black">Đăng xuất</a>
-            <?php else: ?>
-                <a href="login.php" class="text-black">
-                    <img src="../../picture/sign-in-vector-icon-png_262162.jpg" alt="Đăng nhập" height="30"> Đăng nhập
-                </a>
-            <?php endif; ?>
-        </div>
-            </div>
-        </div>
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/home.php">Giới thiệu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/Product-view.php">Sản phẩm</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-white dropdown-toggle" href="../view/Product-view.php?category=1" id="dropdownMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Áo bóng đá
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        <a class="dropdown-item" href="../view/Product-view.php?category=5">Áo câu lạc bộ</a>
-                        <a class="dropdown-item" href="../view/Product-view.php?category=6">Áo đội tuyển quốc gia</a>
-                        <a class="dropdown-item" href="../view/Product-view.php?category=7">Áo bóng đá không logo</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/Product-view.php?category=2">Áo bóng chuyền</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/Product-view.php?category=3">Áo bóng rổ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../view/Product-view.php?category=4">Áo game</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Liên hệ</a>
-                </li>
-            </ul>
-        </div>
-    </nav>  
     <nav>
         <div class="scrolling-banner">
             <marquee behavior="scroll" direction="left">Welcome to the sportswear shop</marquee>
@@ -143,9 +49,9 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
     </nav>
     <section class="banner">
             <div class="banner-images">
-                <img src="../../picture/DALL·E 2024-11-11 13.03.09 - A sleek and modern sportswear shop website banner inspired by the layout and colors of a sports shop. Use blue and red highlights similar to the provi.webp" alt="Banner 1" class="img-fluid active">
-                <img src="../../picture/d8b7cfd2-c4dc-46b8-b101-92f206481c04.webp" alt="Banner 2" class="img-fluid">
-                <img src="../../picture/7d714e8e-ec8d-44a9-9b8a-60ca6a29a6c4.webp" alt="Banner 3" class="img-fluid">
+            <?php foreach ($banners as $banner): ?>
+                <img src="<?php echo htmlspecialchars("/baitaplonweb/".$banner['Avatar']); ?>" alt="<?php echo htmlspecialchars($banner['Name']); ?>" class="img-fluid">
+            <?php endforeach; ?>
             </div>
     </section>
     <section class="introduction">
@@ -172,64 +78,31 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng'; // Lấy tên người d
             <p>Hãy cùng Đồ Thể Thao HDDT chinh phục mọi thử thách, nâng cao sức khỏe và phong cách sống. Chúng tôi rất hân hạnh được đồng hành cùng bạn!</p>
         </div>
     </section>
-    <footer class="footer bg-dark text-white pt-4 pb-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Liên Hệ</h5>
-                    <p>Email: ab@gmail.com</p>
-                    <p>Điện thoại: 000000000</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Mạng xã hội</h5>
-                    <a href="#" class="text-white mr-2"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-white mr-2"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-                </div>
-                <div class="col-md-4">
-                    <h5>Thông tin khác</h5>
-                    <ul>
-                        <li><a href="#" class="text-white">Chính sách bảo mật</a></li>
-                        <li><a href="#" class="text-white">Điều khoản sử dụng</a></li>
-                        <li><a href="#" class="text-white">Giới thiệu</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="text-center py-3">© 2024 Đồ Thể Thao HDDT</div>
-    </footer>
-
+    <?php
+    // Include footer file
+    include '../view/footer.php';
+    ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-                let currentIndex = 0;
+    let currentIndex = 0;
 const images = document.querySelectorAll('.banner-images img');
 const totalImages = images.length;
-
-// Hiển thị ảnh hiện tại
 function showImage(index) {
     images.forEach((img, i) => {
         img.style.display = i === index ? 'block' : 'none';
     });
 }
-
-// Chuyển ảnh qua lại
 function changeImage(direction) {
     currentIndex = (currentIndex + direction + totalImages) % totalImages;
     showImage(currentIndex);
 }
-
-// Tự động chuyển ảnh sau mỗi 3 giây
 function autoChangeImage() {
-    changeImage(1); // Chuyển đến ảnh tiếp theo
+    changeImage(1);
 }
-
-// Khởi tạo ảnh đầu tiên
 showImage(currentIndex);
-
-// Thiết lập interval để tự động chuyển ảnh
-setInterval(autoChangeImage, 3000); // Thay đổi mỗi 3 giây}
+setInterval(autoChangeImage, 3000); 
     </script>
 </body>
 </html>

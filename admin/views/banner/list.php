@@ -26,10 +26,11 @@
                 <tbody>
                     <?php
                     foreach ($banners as $banner) {
+                        $avatarPath = "/baitaplonweb/" . $banner['Avatar'];
                         echo "<tr>";
                         echo "<td>{$banner['MaBanner']}</td>";
                         echo "<td>{$banner['Name']}</td>";
-                        echo "<td><img src='{$banner['Avatar']}' alt='Hình Ảnh banner' style='width: 100px; height: auto;'></td>";
+                        echo "<td><img src='{$avatarPath}' alt='Hình Ảnh banner' style='width: 100px; height: auto;'></td>";
                         echo "<td>";
                         echo "<a href='index.php?controller=banner&action=edit&id={$banner['MaBanner']}'>Sửa</a> | ";
                         echo "<a href='index.php?controller=banner&action=delete&id={$banner['MaBanner']}' onclick='return confirm(\"Bạn có chắc chắn muốn xóa banner này không?\")'>Xóa</a>";
