@@ -63,15 +63,10 @@ include '../view/nav.php';
                                     <td><?php echo number_format($item['GiaKM'], 0, ',', '.'); ?> ₫</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <!-- Đường dẫn đến hành động giảm số lượng -->
                                             <a href="../controller/CartController.php?action=decrease&product_id=<?php echo $item['MaSP']; ?>" 
                                                class="btn btn-light mr-2">-</a>
-                                            
-                                            <!-- Hiển thị số lượng sản phẩm (chỉ đọc) -->
                                             <input type="text" value="<?php echo $item['Soluong']; ?>" 
                                                    class="form-control text-center mx-2" style="width: 60px;" readonly>
-                                            
-                                            <!-- Đường dẫn đến hành động tăng số lượng -->
                                             <a href="../controller/CartController.php?action=increase&product_id=<?php echo $item['MaSP']; ?>" 
                                                class="btn btn-light ml-2">+</a>
                                         </div>
@@ -89,8 +84,6 @@ include '../view/nav.php';
                     <p>Giỏ hàng của bạn hiện đang trống.</p>
                 <?php endif; ?>
             </div>
-
-            <!-- Tổng giá trị giỏ hàng -->
             <div class="col-lg-4 col-md-5">
                 <div class="border p-4 mt-4 mt-md-0">
                     <h4 class="mb-4">Cộng giỏ hàng</h4>
@@ -116,7 +109,6 @@ include '../view/nav.php';
 </section>    
     
     <?php
-    // Include footer file
     include '../view/footer.php';
     ?>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

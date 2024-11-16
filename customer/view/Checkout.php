@@ -30,8 +30,7 @@ if (!empty($orderItems)) {
 }
 
 $userName = $_SESSION['user_name'] ?? 'Người dùng';
-include '../view/header.php';
-include '../view/nav.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +44,10 @@ include '../view/nav.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
+    <?php
+    include '../view/header.php';
+    include '../view/nav.php';
+    ?>
     <div class="container mt-5">
         <div class="row">
             <!-- Thông tin thanh toán -->

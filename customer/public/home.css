@@ -13,6 +13,8 @@ body {
 .header {
     background-color: #f8f8f8;
     border-bottom: 1px solid #eaeaea;
+    padding: 10px 20px; /* Thêm khoảng cách padding */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Tăng sự nổi bật */
 }
 
 .top-bar {
@@ -61,23 +63,59 @@ body {
 }
 
 .cart, .contact-number {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Thêm khoảng cách giữa các phần tử */
     font-size: 14px;
     font-weight: bold;
+}
+
+.cart-dropdown {
+    position: absolute; /* Đảm bảo dropdown hiển thị tốt */
+    right: 0;
+    top: 100%;
+    background-color: white;
+    width: 300px; /* Tăng độ rộng để hiển thị rõ hơn */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 1000;
+}
+
+.cart-dropdown .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+    margin-bottom: 10px;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 5px;
 }
 
 /* Navbar */
 .navbar {
     background-color: #007bff;
+    padding: 10px 20px; /* Thêm padding */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-nav .nav-link {
     color: white;
     font-weight: bold;
+    padding: 10px 15px; /* Thêm padding để dễ bấm hơn */
+    text-transform: uppercase; /* Chữ in hoa */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng hover */
 }
 
 .navbar-nav .nav-link:hover {
     color: #fff;
     background-color: #0056b3;
+    border-radius: 4px; /* Bo tròn góc cho nút */
 }
 
 /* Cart View */
@@ -187,5 +225,9 @@ body {
 
     .navbar-nav {
         text-align: center;
+    }
+
+    .cart {
+        justify-content: center; /* Căn giữa giỏ hàng */
     }
 }
