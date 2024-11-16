@@ -18,9 +18,7 @@
                 </div>              
                 <div class="cart">
                     <a href="../view/Cart.php" class="cart-icon">
-                    <button type="submit" class="btn btn-primary">
                         GIỎ HÀNG / <span id="cart-count"><?php echo $cartItemCount; ?></span>
-                    </button>
                         <div class="cart-dropdown">
                             <div class="cart-items">
                                 <?php if (count($cartItems) > 0): ?>

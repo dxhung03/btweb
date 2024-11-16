@@ -36,7 +36,6 @@ include '../view/nav.php';
 <section>
 <div class="container mt-5">
         <div class="row">
-            <!-- Danh sách sản phẩm trong giỏ hàng -->
             <div class="col-lg-8 col-md-7">
                 <h2 class="mb-4">Giỏ hàng của bạn</h2>
                 <?php if (count($cartItems) > 0): ?>
