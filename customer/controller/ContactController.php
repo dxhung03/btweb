@@ -14,8 +14,9 @@ class ContactController {
         $email = $data['email'] ?? '';
         $website = $data['website'] ?? '';
         $phone = $data['phone'] ?? '';
+        $note = $data['note'] ?? '';
         $fax = $data['fax'] ?? '';
 
-        return $this->contactModel->saveContact($fullName, $company, $address, $email, $website, $phone, $fax);
+        return $this->contactModel->saveContact($fullName, $company, $address, $email, $website, $phone, $note, $fax );
     }
 }

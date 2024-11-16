@@ -19,6 +19,13 @@
         </ul>
     </div>
     <div class="group">
+        <h3>Quản lý liên hệ</h3>
+        <ul>
+            <li><a href="index.php?controller=contact&action=list">Danh sách liên hệ</a></li> 
+            
+        </ul>
+    </div>
+    <div class="group">
         <h3>Quản lý Danh Mục</h3>
         <ul>
             <li><a href="index.php?controller=category&action=list">Danh sách danh mục </a></li> 

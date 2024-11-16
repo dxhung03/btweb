@@ -66,7 +66,6 @@
                     echo "<td>" . number_format($product['Gia'], 0, ',', '.') . " VND</td>";
                     echo "<td>" . number_format($product['GiaKM'], 0, ',', '.') . " VND</td>";
                     echo "<td>{$product['Soluong']}</td>";
-                    echo "<td>{$product['Soluotmua']}</td>";
                     echo "<td>" . htmlspecialchars($product['Mota']) . "</td>";
                     echo "<td>" . htmlspecialchars($product['TenDanhMuc']) . "</td>";
                     echo "<td>";

@@ -51,7 +51,10 @@
                 </div>
                 <div class="login">
                     <?php if ($userId > 0): ?>
-                        <span class="text-black">Xin chào, <?php echo htmlspecialchars($userName); ?>!</span>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+    <a href="profile.php">Thông tin cá nhân</a>
+<?php endif; ?>
+
                         <a href="logout.php" class="text-black">Đăng xuất</a>
                     <?php else: ?>
                         <a href="login.php" class="text-black">

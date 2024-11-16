@@ -7,8 +7,6 @@ class CartController {
     public function __construct() {
         $this->cartModel = new Cart();
     }
-
-    // Thêm sản phẩm vào giỏ hàng
     public function addProductToCart() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start(); 
@@ -34,8 +32,6 @@ class CartController {
             }
         }
     }
-
-    // Giảm số lượng sản phẩm trong giỏ hàng
     public function decreaseProductQuantity($productId) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start(); 
@@ -48,7 +44,6 @@ class CartController {
                 if ($item['MaSP'] == $productId) {
                     $newQuantity = $item['Soluong'] - 1;
                     if ($newQuantity > 0) {
-                        // Cập nhật lại số lượng khi > 0
                         $this->cartModel->updateProductQuantity($userId, $productId, $newQuantity);
                     } else {
                         // Nếu số lượng giảm xuống 0 thì không cho phép giảm thêm nữa

@@ -38,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
                 // Xóa giỏ hàng sau khi lưu đơn hàng thành công
                 foreach ($cartItems as $item) {
                     $cartModel->removeFromCart($userId, $item['MaSP']);
+                    $checkout->decreaseProductQuantity($item['MaSP'], $item['Soluong']);
+
                 }
 
                 // Chuyển thông tin đơn hàng và các sản phẩm trong đơn hàng sang thank-you-view.php

@@ -122,6 +122,10 @@ h2 {
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+            <div class="register-link mt-3 text-center">
+    <p>Chưa có tài khoản? <a href="register.php">Đăng Ký</a></p>
+</div>
+
             <a href="Product-view.php" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>

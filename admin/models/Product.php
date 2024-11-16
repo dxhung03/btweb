@@ -9,7 +9,7 @@ class Product {
 
     // Phương thức lấy tất cả sản phẩm
     public function getAllProducts() {
-        $query = "SELECT sanpham.MaSP, sanpham.TenSP, sanpham.Gia, sanpham.GiaKM, sanpham.Soluong, sanpham.Soluotmua, sanpham.Mota, sanpham.Avatar, danhmuc.Ten AS TenDanhMuc
+        $query = "SELECT sanpham.MaSP, sanpham.TenSP, sanpham.Gia, sanpham.GiaKM, sanpham.Soluong, sanpham.Mota, sanpham.Avatar, danhmuc.Ten AS TenDanhMuc
                   FROM sanpham
                   LEFT JOIN danhmuc ON sanpham.MaDM = danhmuc.MaDM";
         $stmt = $this->conn->prepare($query);
@@ -18,7 +18,7 @@ class Product {
     }
     
     public function getProductsByCategory($danhmucId) {
-        $query = "SELECT sanpham.MaSP, sanpham.TenSP, sanpham.Gia, sanpham.GiaKM, sanpham.Soluong, sanpham.Soluotmua, sanpham.Mota, sanpham.Avatar, danhmuc.Ten AS TenDanhMuc
+        $query = "SELECT sanpham.MaSP, sanpham.TenSP, sanpham.Gia, sanpham.GiaKM, sanpham.Soluong, sanpham.Mota, sanpham.Avatar, danhmuc.Ten AS TenDanhMuc
                   FROM sanpham
                   LEFT JOIN danhmuc ON sanpham.MaDM = danhmuc.MaDM
                   WHERE sanpham.Danhmuc = :danhmucId"; // Thêm điều kiện lọc theo danh mục
@@ -31,14 +31,13 @@ class Product {
     
 
     // Phương thức thêm sản phẩm mới
-    public function addProduct($TenSP, $Gia, $GiaKM, $Soluong, $Soluotmua, $Mota, $Danhmuc, $Avatar) {
-        $query = "INSERT INTO sanpham (TenSP, Gia, GiaKM, Soluong, Soluotmua, Mota, MaDM, Avatar) VALUES (:TenSP, :Gia, :GiaKM, :Soluong, :Soluotmua, :Mota, :Danhmuc, :Avatar)";
+    public function addProduct($TenSP, $Gia, $GiaKM, $Soluong,  $Mota, $Danhmuc, $Avatar) {
+        $query = "INSERT INTO sanpham (TenSP, Gia, GiaKM, Soluong,  Mota, MaDM, Avatar) VALUES (:TenSP, :Gia, :GiaKM, :Soluong, :Mota, :Danhmuc, :Avatar)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':TenSP', $TenSP, PDO::PARAM_STR);
         $stmt->bindValue(':Gia', $Gia, PDO::PARAM_INT);
         $stmt->bindValue(':GiaKM', $GiaKM, PDO::PARAM_INT);
         $stmt->bindValue(':Soluong', $Soluong, PDO::PARAM_INT);
-        $stmt->bindValue(':Soluotmua', $Soluotmua, PDO::PARAM_INT);
         $stmt->bindValue(':Mota', $Mota, PDO::PARAM_STR);
         $stmt->bindValue(':Danhmuc', $Danhmuc, PDO::PARAM_STR);
         $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);
@@ -59,8 +58,8 @@ class Product {
     }
 
     // Phương thức cập nhật sản phẩm
-    public function updateProduct($id, $TenSP, $Gia, $GiaKM, $Soluong, $Soluotmua, $Mota, $Danhmuc, $Avatar) {
-        $query = "UPDATE sanpham SET TenSP = :TenSP, Gia = :Gia, GiaKM = :GiaKM, Soluong = :Soluong, Soluotmua = :Soluotmua, Mota = :Mota, MaDM = :Danhmuc, Avatar = :Avatar WHERE MaSP = :id";
+    public function updateProduct($id, $TenSP, $Gia, $GiaKM, $Soluong, $Mota, $Danhmuc, $Avatar) {
+        $query = "UPDATE sanpham SET TenSP = :TenSP, Gia = :Gia, GiaKM = :GiaKM, Soluong = :Soluong, Mota = :Mota, MaDM = :Danhmuc, Avatar = :Avatar WHERE MaSP = :id";
         $stmt = $this->conn->prepare($query);
         if ($stmt === false) {
             echo "Lỗi trong câu lệnh SQL: " . $this->conn->errorInfo()[2];
@@ -70,7 +69,6 @@ class Product {
         $stmt->bindValue(':Gia', $Gia, PDO::PARAM_INT);
         $stmt->bindValue(':GiaKM', $GiaKM, PDO::PARAM_INT);
         $stmt->bindValue(':Soluong', $Soluong, PDO::PARAM_INT);
-        $stmt->bindValue(':Soluotmua', $Soluotmua, PDO::PARAM_INT);
         $stmt->bindValue(':Mota', $Mota, PDO::PARAM_STR);
         $stmt->bindValue(':Danhmuc', $Danhmuc, PDO::PARAM_STR);
         $stmt->bindValue(':Avatar', $Avatar, PDO::PARAM_STR);

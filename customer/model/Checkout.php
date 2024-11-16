@@ -20,33 +20,22 @@ class Checkout {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Lưu đơn hàng và chi tiết đơn hàng
     public function saveOrder($userId, $fullName, $phone, $email, $address, $note, $cartItems, $totalAmount) {
         try {
             $this->conn->beginTransaction();
-            
-            // Tính tổng số lượng sản phẩm trong giỏ hàng
             $totalQuantity = 0;
             foreach ($cartItems as $item) {
                 $totalQuantity += $item['Soluong'];
             }
-    
-            // Lưu thông tin đơn hàng
+
             $query = "INSERT INTO donhang (MaTK, Ngaydat, Soluong, Dongia, Trangthai) 
                       VALUES (:userId, NOW(), :totalQuantity, :totalAmount, 0)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
             $stmt->bindParam(':totalQuantity', $totalQuantity, PDO::PARAM_INT);
             $stmt->bindParam(':totalAmount', $totalAmount, PDO::PARAM_STR);
-    
-            // Thực thi câu lệnh lưu đơn hàng
             $stmt->execute();
-    
-            // Lấy ID của đơn hàng vừa lưu
             $orderId = $this->conn->lastInsertId();
-    
-            // Lưu thông tin sản phẩm vào bảng chi tiết đơn hàng
             foreach ($cartItems as $item) {
                 $queryItem = "INSERT INTO chitiet_donhang (MaDH, MaSP, Soluong, Gia) 
                               VALUES (:orderId, :productId, :quantity, :price)";
@@ -80,6 +69,11 @@ class Checkout {
         $stmt->bindParam(':orderId', $orderId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function decreaseProductQuantity($productId, $quantity) {
+        $sql = "UPDATE sanpham SET Soluong = Soluong - ? WHERE MaSP = ? AND Soluong >= ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$quantity, $productId, $quantity]);
     }
     
 }

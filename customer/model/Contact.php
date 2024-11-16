@@ -10,10 +10,10 @@ class ContactModel {
     }
 
     // Hàm lưu thông tin liên hệ
-    public function saveContact($fullName, $company, $address, $email, $website, $phone, $fax) {
+    public function saveContact($fullName, $company, $address, $email, $website, $phone, $note, $fax) {
         try {
-            $sql = "INSERT INTO contacts (full_name, company, address, email, website, phone, fax) 
-                    VALUES (:fullName, :company, :address, :email, :website, :phone, :fax)";
+            $sql = "INSERT INTO contacts (full_name, company, address, email, website, phone, note, fax) 
+                    VALUES (:fullName, :company, :address, :email, :website, :phone, :note, :fax)";
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam(':fullName', $fullName);
@@ -22,7 +22,8 @@ class ContactModel {
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':website', $website);
             $stmt->bindParam(':phone', $phone);
-            $stmt->bindParam(':fax', $fax);
+            $stmt->bindParam(':note', $note);
+            $stmt->bindParam(':fax', $fax);      
 
             return $stmt->execute();
         } catch (PDOException $e) {

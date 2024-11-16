@@ -43,7 +43,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                     $controller->displayProductDetail($id);
                     echo '</div>';
                 } elseif ($categoryId > 0) {
-                    $controller->displayProductCategory($categoryId);
+                    $controller->displayProductCategory($categoryId, $page);
                 } else {
                     $controller->displayProduct($page);
                 }

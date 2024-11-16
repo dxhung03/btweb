@@ -48,11 +48,12 @@ class ProductController {
         echo '</div>'; 
     }
     
-    
-    
-    public function displayProductCategory($categoryId) {
-        $products = $this->productModel->getProductByCategory($categoryId);
-        
+    public function displayProductCategory($categoryId, $page = 1) {
+        $limit = 6; // Số sản phẩm trên mỗi trang
+        $totalProducts = $this->productModel->getTotalProductsByCategory($categoryId); // Tổng số sản phẩm theo danh mục
+        $totalPages = ceil($totalProducts / $limit); // Tổng số trang
+        $products = $this->productModel->getProductsByCategoryAndPage($categoryId, $page, $limit); // Sản phẩm theo danh mục và trang
+
         if (empty($products)) {
             echo "<p>Không có sản phẩm nào trong danh mục này.</p>";
             return;
@@ -72,7 +73,23 @@ class ProductController {
             echo '</li>';
         }
         echo '</ul>';
+        echo '<div class="pagination">';
+        if ($page > 1) {
+            echo '<a href="?category=' . $categoryId . '&page=' . ($page - 1) . '">&laquo;</a>';
+        }
+        for ($i = 1; $i <= $totalPages; $i++) {
+            if ($i == $page) {
+                echo '<strong>' . $i . '</strong> ';
+            } else {
+                echo '<a href="?category=' . $categoryId . '&page=' . $i . '">' . $i . '</a> ';
+            }
+        }
+        if ($page < $totalPages) {
+            echo '<a href="?category=' . $categoryId . '&page=' . ($page + 1) . '">&raquo;</a>';
+        }
+        echo '</div>';
     }
+    
     
     
     

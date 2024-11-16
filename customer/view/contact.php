@@ -70,6 +70,10 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng';
                 <label for="fax">Fax</label>
                 <input type="text" class="form-control" id="fax" name="fax">
             </div>
+            <div class="form-group">
+                <label for="note">Note</label>
+                <input type="text" class="form-control" id="note" name="note">
+            </div>
             <button type="submit" class="btn btn-primary">Gửi Thông Tin</button>
             <button type="reset" class="btn btn-secondary">Nhập Lại</button>
         </form>

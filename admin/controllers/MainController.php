@@ -97,6 +97,17 @@ class MainController {
                                         $customerController->index();
                                     }
                                     break ; 
+                            case 'contact': 
+                                require_once 'Controllers/ContactController.php';
+                                $contactController = new ContactController();
+                                switch($action) {
+                                    case 'list':
+                                        $contactController->index();
+                                        break;
+                                    default:
+                                        $contactController->index();
+                                    }
+                                    break ; 
                             case 'user':
                                 require_once 'Controllers/UserController.php';
                                 $userController = new UserController();

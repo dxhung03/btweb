@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'email' => $_POST['email'] ?? '',
         'website' => $_POST['website'] ?? '',
         'phone' => $_POST['phone'] ?? '',
-        'fax' => $_POST['fax'] ?? ''
+        'fax' => $_POST['fax'] ?? '',
+        'note' => $_POST['note'] ?? ''
     ];
     $contactController = new ContactController();
     $isSaved = $contactController->saveContact($data);

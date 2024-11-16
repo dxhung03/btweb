@@ -82,4 +82,5 @@ class Cart {
             return $stmt->execute(); // Trả về true nếu cập nhật thành công
         }
     }
+    
 }

@@ -19,14 +19,24 @@
                 <p class="product-price">Giá: <?php echo number_format($product['Gia'], 0, ',', '.'); ?> VNĐ</p>
                 <p class="product-discount-price">Giá KM: <?php echo number_format($product['GiaKM'], 0, ',', '.'); ?> VNĐ</p>
             </div>
-            <form method="POST" action="../controller/CartController.php" class="mt-3">
-                <input type="hidden" name="product_id" value="<?php echo $product['MaSP']; ?>">
-                <div class="form-group">
-                    <label for="quantity">Số lượng:</label>
-                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['Soluong']; ?>" class="form-control" required>
+
+            <?php if ($product['Soluong'] > 0): ?>
+                <!-- Hiển thị form thêm vào giỏ hàng nếu sản phẩm còn -->
+                <form method="POST" action="../controller/CartController.php" class="mt-3">
+                    <input type="hidden" name="product_id" value="<?php echo $product['MaSP']; ?>">
+                    <div class="form-group">
+                        <label for="quantity">Số lượng:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['Soluong']; ?>" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                </form>
+            <?php else: ?>
+                <!-- Hiển thị thông báo khi sản phẩm đã hết -->
+                <div class="alert alert-danger mt-3">
+                    Sản phẩm này đã hết hàng.
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
-            </form>
+            <?php endif; ?>
+
 
             <div class="back-button mt-3">
                 <a href="Product-view.php" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
