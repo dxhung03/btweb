@@ -36,6 +36,7 @@ include '../view/nav.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
+    <section class = "thankyou">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Cảm ơn bạn đã đặt hàng!</h2>
         <p class="text-center">Chúng tôi đã nhận được đơn hàng của bạn và đang xử lý nó. Chi tiết đơn hàng như sau:</p>
@@ -80,6 +81,8 @@ include '../view/nav.php';
             <a href="../view/Product-view.php" class="btn btn-primary">Tiếp tục mua sắm</a>
         </div>
     </div>
+    </section>
+    
     <?php
     // Include footer file
     include '../view/footer.php';

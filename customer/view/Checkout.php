@@ -48,6 +48,7 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng';
     include '../view/header.php';
     include '../view/nav.php';
     ?>
+    <section class = "checkout">
     <div class="container mt-5">
         <div class="row">
             <!-- Thông tin thanh toán -->
@@ -114,8 +115,8 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng';
             </div>
         </div>
     </div>
+    </section>
     <?php
-    // Include footer file
     include '../view/footer.php';
     ?>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

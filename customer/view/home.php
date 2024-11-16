@@ -40,7 +40,21 @@ include '../view/nav.php';
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
+<style>
+    .banner-images {
+    position: relative;
+    width: 100%; 
+    height: 100vh; 
+    overflow: hidden; 
+}
 
+.banner-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+</style>
 <body>
     <nav>
         <div class="scrolling-banner">

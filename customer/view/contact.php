@@ -30,14 +30,16 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng';
     <title>Liên Hệ - Đồ thể thao HDDT</title>
     <link rel="stylesheet" href="../public/home.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
     <?php
     include '../view/header.php';
     include '../view/nav.php';
     ?>
-
-    <div class="container mt-5">
+<section class = "contact">
+<div class="container mt-5">
         <h2 class="text-center mb-4">Liên Hệ</h2>
         <form action="contact_process.php" method="POST">
             <div class="form-group">
@@ -72,6 +74,8 @@ $userName = $_SESSION['user_name'] ?? 'Người dùng';
             <button type="reset" class="btn btn-secondary">Nhập Lại</button>
         </form>
     </div>
+</section>
+    
 
     <?php
     include '../view/footer.php';

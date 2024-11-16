@@ -54,6 +54,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     } else {
         echo "Bạn cần đăng nhập để tiến hành thanh toán.";
     }
-} else {
-    echo "Yêu cầu không hợp lệ.";
 }

@@ -33,8 +33,8 @@ include '../view/nav.php';
     <link rel="stylesheet" href="../public/home.css">
 </head>
 <body>
-<section>
-<div class="container mt-5">
+<section class = "cart">
+<div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-7">
                 <h2 class="mb-4">Giỏ hàng của bạn</h2>
@@ -77,7 +77,6 @@ include '../view/nav.php';
                     </table>
                     <div class="d-flex justify-content-between">
                         <a href="../view/Product-view.php" class="btn btn-outline-primary">← Tiếp tục xem sản phẩm</a>
-                        <a href="../controller/CartController.php?action=update" class="btn btn-primary">Cập nhật giỏ hàng</a>
                     </div>
                 <?php else: ?>
                     <p>Giỏ hàng của bạn hiện đang trống.</p>
@@ -106,7 +105,7 @@ include '../view/nav.php';
         </div>
     </div>
 </section>    
-    
+
     <?php
     include '../view/footer.php';
     ?>
